@@ -40,6 +40,4 @@ extern struct messsage_box* boxes_from_central_control_node;
 /** message boxes from robots to central control node */
 extern struct messsage_box* boxes_from_robots;
 
-void initMessageBox(struct message_box *box);
-
 #endif
