@@ -11,7 +11,8 @@
 #include "projects/automated_warehouse/aw_manager.h"
 
 struct robot* robots;
-
+struct message_box boxes_fControl; //control이 보내는 messagebox
+struct message_box boxes_fRobot; //robot이 보내는 messagebox
 int num_robot;
 
 // test code for central control node thread
@@ -23,7 +24,7 @@ void test_cnt(){
         }
 }
 
-void main_cnt(){
+void control_thread(){
         while(1){
                 print_map(robots, 4);
         }
@@ -50,10 +51,17 @@ void run_automated_warehouse(char **argv)
         // 로봇의 개수 처리
         num_robot = atoi(argv[1]);
 
-        
+        boxes_fControl = malloc(sizeof(struct message_box) * num_robot);        //control이 보내는 messagebox
+        boxes_fRobot = malloc(sizeof(struct message_box) * num_robot);          //robot이 보내는 messagebox
+
+
 
         // 로봇 초기화
         robots = malloc(sizeof(struct robot) * num_robot);
+        char **name_robot = malloc(sizeof(char) * num_robot)
+        for (int i=0; i<num_robot; i++){
+                setRobot(&robots[i], )
+        }
         setRobot(&robots[0], "R1", 5, 5, 0, 0);
         setRobot(&robots[1], "R2", 0, 2, 0, 0);
         setRobot(&robots[2], "R3", 1, 1, 1, 1);
