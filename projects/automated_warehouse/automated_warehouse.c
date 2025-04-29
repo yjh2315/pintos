@@ -54,25 +54,31 @@ void run_automated_warehouse(char **argv)
         boxes_fControl = malloc(sizeof(struct message_box) * num_robot);        //control이 보내는 messagebox
         boxes_fRobot = malloc(sizeof(struct message_box) * num_robot);          //robot이 보내는 messagebox
 
-
-
-        // 로봇 초기화
-        robots = malloc(sizeof(struct robot) * num_robot);
-        char **name_robot = malloc(sizeof(char) * num_robot)
-        for (int i=0; i<num_robot; i++){
-                setRobot(&robots[i], )
+        // 로봇 문자 자릿수 계산
+        int tempRobotNum = num_robot;
+        int robot_num_digit = 0;        //로봇 문자 자릿수
+        while (tempRobotNum > 0){
+                tempRobotNum = tempRobotNum / 10;
+                robot_num_digit++;
         }
-        setRobot(&robots[0], "R1", 5, 5, 0, 0);
-        setRobot(&robots[1], "R2", 0, 2, 0, 0);
-        setRobot(&robots[2], "R3", 1, 1, 1, 1);
-        setRobot(&robots[3], "R4", 5, 5, 0, 0);
 
-        // test case robots
-        robots = malloc(sizeof(struct robot) * 4);
-        setRobot(&robots[0], "R1", 5, 5, 0, 0);
-        setRobot(&robots[1], "R2", 0, 2, 0, 0);
-        setRobot(&robots[2], "R3", 1, 1, 1, 1);
-        setRobot(&robots[3], "R4", 5, 5, 0, 0);
+
+        // 로봇 초기화 (로봇 정보)
+        robots = malloc(sizeof(struct robot) * num_robot);
+        char **name_robot = malloc(sizeof(char) * num_robot); //로봇의 이름 저장
+        int *req_payload = malloc(sizeof(int) * num_robot);     //로봇의 payload 저장
+        int *goalPoint = malloc(sizeof(int) * num_robot);       //로봇의 goal 저장
+
+        
+
+        char *bufN = malloc(sizeof(char) * (robot_num_digit+1) * (robot_num_digit));
+        for (int i=0; i<num_robot; i++){
+                name_robot[i] = malloc(sizeof(char) * (robot_num_digit+1));
+                snprintf(bufN, robot_num_digit, "%d", i + 1);
+                strlcpy(name_robot[i], "R", 3);
+                strcat(name_robot[i], bufN);
+                setRobot(&robots[i], name_robot[i], 5, 5, req_payload, 0);
+        }
 
         // example of create thread
         tid_t* threads = malloc(sizeof(tid_t) * 4);
