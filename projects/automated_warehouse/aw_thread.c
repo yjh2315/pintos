@@ -34,7 +34,7 @@ void block_thread(){
 void unblock_threads(){
     enum intr_level old_level;
     old_level = intr_disable ();
-    while(!list_empty(&blocked_threads)){
+    while(!list_empty(&blocked_threads)){       //list가 빌 때까지 반복해서 unblock
         thread_unblock(list_entry(list_pop_front(&blocked_threads), struct thread, elem));
     }
     intr_set_level(old_level);

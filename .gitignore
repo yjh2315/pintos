@@ -14,3 +14,6 @@
 /userprog
 /utils
 /vm
+/aw_manager.c
+/aw_manager.h
+.gitignore

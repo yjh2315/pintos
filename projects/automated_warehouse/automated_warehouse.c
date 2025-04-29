@@ -23,12 +23,12 @@ void test_cnt(){
         }
 }
 
-// void main_cnt(){
-//         while(1){
-//                 print_map(robots, 4);
-//         }
+void main_cnt(){
+        while(1){
+                print_map(robots, 4);
+        }
 
-// }
+}
 
 // test code for robot thread
 void test_thread(void* aux){
