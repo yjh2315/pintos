@@ -7,10 +7,10 @@ void initMessageBox(struct message_box *box){
 
 bool sendMessage(struct message_box *box, struct message *msg){
     if(checkMSGBox(box)){
-        return false;       //내가 보낸 메시지이기에 처리X
+        return false;
     }
     box->dirtyBit = 1;
-    box->msg = *m;
+    box->msg = *msg;
     return true;
 }
 
