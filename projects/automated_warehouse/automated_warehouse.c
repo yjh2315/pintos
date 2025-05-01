@@ -341,7 +341,6 @@ void run_automated_warehouse(char **argv)
         int num_message;
         int chkOut = 0;
         while(1){
-                print_map(robots, num_robot);
                 //메시지 로봇에게 전달
                 for(int i=0; i<num_robot; i++){
                         centMsg[i].cmd = findpath(i, goal);
