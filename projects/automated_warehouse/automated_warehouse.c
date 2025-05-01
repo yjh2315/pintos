@@ -318,7 +318,7 @@ void run_automated_warehouse(char **argv)
                 name_robot[i] = malloc(sizeof(char) * (robot_num_digit+1));
                 snprintf(bufN, robot_num_digit+1, "%d", i + 1);
                 strlcpy(name_robot[i], "R", 3);
-                strcat(name_robot[i], bufN);
+                strlcat(name_robot[i], bufN, robot_num_digit+1);
                 setRobot(&robots[i], name_robot[i], 5, 5, req_payload, 0);
         }
 
