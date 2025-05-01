@@ -124,14 +124,14 @@ int findpath(int idx,char *goal){
                 switch(goal[idx]){
                         case 'A':
                                 goal_col = 0;
-                                goal_row = 1;
+                                goal_row = 2;
                                 break;
                         case 'B':
-                                goal_col = 0;
-                                goal_row = 3;
+                                goal_col = 2;
+                                goal_row = 0;
                                 break;
                         case 'C':
-                                goal_col = 0;
+                                goal_col = 2;
                                 goal_row = 5;
                                 break;
                 }
@@ -140,52 +140,52 @@ int findpath(int idx,char *goal){
         //payload 위치만 PATH로 설정하고, payload를 load한 상태가 아니라면 goal set
         switch(cur_payload){
                 case 1:
-                        map[2][2] = PATH;
+                        map[1][1] = PATH;
                         if(robots[idx].current_payload != 1){
-                                goal_row = 2;
-                                goal_col = 2;
+                                goal_row = 1;
+                                goal_col = 1;
                         }
                         break;
                 case 2:
-                        map[3][2] = PATH;
+                        map[1][3] = PATH;
                         if(robots[idx].current_payload != 2){
-                                goal_row = 3;
-                                goal_col = 2;
+                                goal_row = 1;
+                                goal_col = 3;
                         }
                         break;
                 case 3:
-                        map[4][2] = PATH;
+                        map[1][4] = PATH;
                         if(robots[idx].current_payload != 3){
-                                goal_row = 4;
-                                goal_col = 2;
+                                goal_row = 1;
+                                goal_col = 4;
                         }
                         break;
                 case 4:
-                        map[2][4] = PATH;
+                        map[1][5] = PATH;
                         if(robots[idx].current_payload != 4){
-                                goal_row = 2;
-                                goal_col = 4;
+                                goal_row = 1;
+                                goal_col = 5;
                         }
                         break;
                 case 5:
-                        map[3][4] = PATH;
+                        map[4][1] = PATH;
                         if(robots[idx].current_payload != 5){
-                                goal_row = 3;
-                                goal_col = 4;
+                                goal_row = 4;
+                                goal_col = 1;
                         }
                         break;
                 case 6:
-                        map[4][4] = PATH;
+                        map[4][3] = PATH;
                         if(robots[idx].current_payload != 6){
                                 goal_row = 4;
-                                goal_col = 4;
+                                goal_col = 3;
                         }
                         break;
                 case 7:
-                        map[1][3] = PATH;
+                        map[4][4] = PATH;
                         if(robots[idx].current_payload != 7){
-                                goal_row = 1;
-                                goal_col = 3;
+                                goal_row = 4;
+                                goal_col = 4;
                         }
                         break;
                 default:
@@ -240,10 +240,10 @@ int findpath(int idx,char *goal){
         }
 
         int det = map[row][col];
-        if(robots[idx].current_payload == cur_payload && row == goal_row && col == goal_col){
+        if((robots[idx].current_payload == cur_payload) && (row == goal_row) && (col == goal_col)){
                 return STOP;
         }
-        else if(robots[idx].current_payload != cur_payload && row == goal_row && col == goal_col){
+        else if((robots[idx].current_payload != cur_payload) && (row == goal_row) && (col == goal_col)){
                 return LOAD;
         }
         else if(row > 0 && map[row-1][col] < det){
@@ -317,9 +317,10 @@ void run_automated_warehouse(char **argv)
         for (int i=0; i<num_robot; i++){
                 name_robot[i] = malloc(sizeof(char) * (robot_num_digit+1));
                 snprintf(bufN, robot_num_digit+1, "%d", i + 1);
-                strlcpy(name_robot[i], "R", 3);
-                strlcat(name_robot[i], bufN, robot_num_digit+1);
-                setRobot(&robots[i], name_robot[i], 5, 5, req_payload, 0);
+                strlcpy(name_robot[i], "R", robot_num_digit+2);
+                strlcat(name_robot[i], bufN, robot_num_digit+2);
+                printf("출력이 : %s\n", name_robot[i]);
+                setRobot(&robots[i], name_robot[i], 5, 5, req_payload[i], 0);
         }
 
         // example of create thread
@@ -340,6 +341,7 @@ void run_automated_warehouse(char **argv)
         int num_message;
         int chkOut = 0;
         while(1){
+                print_map(robots, num_robot);
                 //메시지 로봇에게 전달
                 for(int i=0; i<num_robot; i++){
                         centMsg[i].cmd = findpath(i, goal);
