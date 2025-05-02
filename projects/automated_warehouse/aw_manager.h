@@ -19,7 +19,7 @@
 #define COL_W 5
 
 #define MAP_WIDTH 7
-#define MAP_HEIGHT 6
+#define MAP_HEIGHT 7
 
 extern unsigned int step;
 extern const char thread_status[4][10];
