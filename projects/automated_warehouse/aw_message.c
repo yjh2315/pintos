@@ -15,7 +15,7 @@ bool sendMessage(struct message_box *box, struct message *msg){
 }
 
 bool checkMSGBox(struct message_box *box){
-    if(box->dirtyBit = 1){
+    if(box->dirtyBit == 1){
         return true;
     }else{
         return false;

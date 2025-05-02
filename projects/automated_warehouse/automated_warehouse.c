@@ -28,7 +28,7 @@ int num_robot;
 
 void run_Robot_Thread(void *aux){
         int idx = *((int *)aux);
-        int robot_row = 5;
+        int robot_row = 6;
         int robot_col = 5;
         int cur_payload = 0;
         while(1){
@@ -98,7 +98,7 @@ void run_Robot_Thread(void *aux){
         }
 }
 
-#define WALL 99
+#define WALL 100
 #define PATH 98
 #define ROBT -1
 
@@ -206,6 +206,8 @@ int findpath(int idx,char *goal){
                 }
         }
 
+        map[row][col] = PATH;
+
         //목표 칸으로부터 robot까지의 거리를 계산합니다.
         int val = 0 ;
         while(1){
@@ -251,17 +253,17 @@ int findpath(int idx,char *goal){
                 robots[idx].row--;
                 return UP;
         }
-        else if(row > 0 && map[row+1][col] < det){
+        else if(row < 6 && map[row+1][col] < det){
                 //val이 det보다 작다는건 goal까지의 path라는 것이기에
                 robots[idx].row++;
                 return DOWN;
         }
-        else if(row > 0 && map[row][col-1] < det){
+        else if(col > 0 && map[row][col-1] < det){
                 //val이 det보다 작다는건 goal까지의 path라는 것이기에
                 robots[idx].col--;
                 return LEFT;
         }
-        else if(row > 0 && map[row][col+1] < det){
+        else if(col < 6 && map[row][col+1] < det){
                 //val이 det보다 작다는건 goal까지의 path라는 것이기에
                 robots[idx].col++;
                 return RIGHT;
@@ -319,7 +321,6 @@ void run_automated_warehouse(char **argv)
                 snprintf(bufN, robot_num_digit+1, "%d", i + 1);
                 strlcpy(name_robot[i], "R", robot_num_digit+2);
                 strlcat(name_robot[i], bufN, robot_num_digit+2);
-                printf("출력이 : %s\n", name_robot[i]);
                 setRobot(&robots[i], name_robot[i], 6, 5, req_payload[i], 0);
         }
 
@@ -364,6 +365,10 @@ void run_automated_warehouse(char **argv)
                                         // 로봇으로부터 받은 메시지로 저장
                                 }
                         }
+                }
+
+                for(int i=0; i<num_robot; i++){
+                        robots[i].current_payload = centMsg[i].current_payload;
                 }
 
                 print_map(robots, num_robot);
